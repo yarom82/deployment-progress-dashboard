@@ -1,0 +1,8 @@
+{
+  "eslint.validate": [
+    "typescript",
+    "javascript"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "tslint.enable": false
+}

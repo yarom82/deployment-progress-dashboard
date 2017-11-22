@@ -1,0 +1,49 @@
+{
+  "name": "deployment-progress-dashboard",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ext .ts src/**/*.ts webpack.config.js",
+    "bundle": "webpack",
+    "start": "webpack-dev-server",
+    "test": "run-s lint bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarom82/deployment-progress-dashboard.git"
+  },
+  "author": "Yarom Shoval <yarom.adi@gmail.com> (https://github.com/yarom82)",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/yarom82/deployment-progress-dashboard/issues"
+  },
+  "homepage": "https://github.com/yarom82/deployment-progress-dashboard#readme",
+  "devDependencies": {
+    "@cycle-components/pick-path-router": "^6.0.2",
+    "@cycle/dom": "^20.1.0",
+    "@cycle/history": "^6.9.0",
+    "@cycle/run": "^4.0.0",
+    "@types/history": "^4.6.2",
+    "awesome-typescript-loader": "^3.4.0",
+    "bulma": "^0.6.1",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.11.0",
+    "eslint-config-standard-with-typescript": "^1.0.7",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "npm-run-all": "^4.1.2",
+    "sass-loader": "^6.0.6",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.19.0",
+    "tsconfigs": "^2.0.0",
+    "tslib": "^1.8.0",
+    "typescript": "2.6.1",
+    "typescript-eslint-parser": "^9.0.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4",
+    "xstream": "^11.0.0"
+  }
+}
