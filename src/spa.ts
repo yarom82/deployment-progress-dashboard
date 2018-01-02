@@ -36,9 +36,12 @@ export default ({ data: clientsStats$, history: history$ }: Sources) => {
     path: history$.map(location => location.pathname),
     routes: routes$
   })
+
   const pageSinks$ = match$.map(match => match.sinks)
+  const pageVNode$ = pageSinks$.map(pageSinks => pageSinks.DOM).flatten()
+
   return {
-    DOM: pageSinks$.map(pageSinks => pageSinks.DOM).flatten(),
+    DOM: pageVNode$,
     history: navigation$
   }
 }
