@@ -1,7 +1,8 @@
 import { ClientStats } from './interfaces'
-import { div, h2, svg, h, p } from '@cycle/dom'
+import { div, h2, p } from '@cycle/dom'
 import { PageComponent, StandardPageSinks } from '@cycle-components/pick-path-router'
 import xs, { Stream } from 'xstream'
+import DeployedChartComponent from './deployed-chart-component'
 import TransactionsComponent from './transactions-component'
 import LocationsComponent from './locations-component'
 
@@ -13,13 +14,22 @@ interface Sources extends SourcesSansParams {
   params: string[]
 }
 
-const commonTextAttrs = { y: '20', stroke: 'none', fill: 'white' }
-
 const ClientStatsComponent: PageComponent<Sources, StandardPageSinks> = ({
   clientsStats: clientsStats$,
   params: [clientId]
 }: Sources) => {
   const clientStats$ = clientsStats$.map(clientsStats => clientsStats[clientId])
+
+  const deployedPercentage$ = clientStats$
+    .map(({ locations }) => {
+      const nLocations = locations.length
+      const nDeployedLocations = locations.filter(l => l.isDeployed).length
+      return nDeployedLocations / nLocations * 100
+    })
+
+  const { DOM: deployedChartVNode$ } = DeployedChartComponent({
+    deployedPercentage: deployedPercentage$
+  })
 
   const nLastTotalTransactions$ = clientStats$.map(({ nLastTotalTransactions }) => nLastTotalTransactions)
   const lastTotalTransactionsReportDate$ = clientStats$.map(({ lastTotalTransactionsReportDate }) => lastTotalTransactionsReportDate)
@@ -38,41 +48,20 @@ const ClientStatsComponent: PageComponent<Sources, StandardPageSinks> = ({
   })
 
   const vnode$ = xs
-    .combine(clientStats$, transactionsVNode$, locationsVNode$)
+    .combine(clientStats$, deployedChartVNode$, transactionsVNode$, locationsVNode$)
     .map(([
       {
         name,
-        descriptionHtml,
-        locations
+        descriptionHtml
       },
+      deployedChartVNode,
       transactionsVNode,
       locationsVNode
     ]) => {
-      const nLocations = locations.length
-      const nDeployedLocations = locations.filter(l => l.isDeployed).length
-
       return div([
         h2(name),
         div({ props: { innerHTML: descriptionHtml } }),
-        svg({
-          attrs: { width: '200', height: '30' }
-        }, [
-          h('rect', {
-            attrs: { width: '200', height: '30', fill: 'gray' }
-          }),
-          h('rect', {
-            attrs: { width: String(200 * nDeployedLocations / nLocations), height: '30', fill: 'blue' }
-          }),
-          h('text', {
-            attrs: { x: '10', ...commonTextAttrs }
-          }, '0'),
-          h('text', {
-            attrs: { x: '90', ...commonTextAttrs }
-          }, String(nDeployedLocations)),
-          h('text', {
-            attrs: { x: '160', ...commonTextAttrs }
-          }, String(nLocations))
-        ]),
+        deployedChartVNode,
         p(['Transactions: ', transactionsVNode]),
         locationsVNode
       ])

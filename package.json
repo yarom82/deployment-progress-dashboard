@@ -44,6 +44,8 @@
     "typescript-eslint-parser": "^9.0.1",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
-    "xstream": "^11.0.0"
-  }
+    "xstream": "^11.0.0",
+    "zingchart": "^2.6.2"
+  },
+  "dependencies": {}
 }
