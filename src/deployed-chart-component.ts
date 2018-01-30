@@ -34,15 +34,11 @@ export default ({
         ]
       }
 
-      return div({
-        attrs: {
-          id: 'deployed-chart'
-        },
+      return div(`#deployed-chart-${deployedPercentage}`, {
         hook: {
           insert: () => {
-            console.log('creiiiate')
             zingchart.render({
-              id: 'deployed-chart',
+              id: `deployed-chart-${deployedPercentage}`,
               data: chartData,
               height: 500,
               width: 725
