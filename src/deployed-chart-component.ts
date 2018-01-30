@@ -34,15 +34,20 @@ export default ({
         ]
       }
 
-      return div(`#deployed-chart-${deployedPercentage}`, {
+      const id = `deployed-chart-${deployedPercentage}`
+
+      return div(`#${id}`, {
         hook: {
           insert: () => {
             zingchart.render({
-              id: `deployed-chart-${deployedPercentage}`,
+              id,
               data: chartData,
               height: 500,
               width: 725
             })
+          },
+          destroy: () => {
+            zingchart.exec(id, 'destroy')
           }
         }
       })
