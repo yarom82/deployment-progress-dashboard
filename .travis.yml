@@ -8,6 +8,6 @@ before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 deploy:
   provider: surge
-  project: ./public
+  project: ./dist
   domain: deployment-progress-dashboard.surge.sh
   skip_cleanup: true
